@@ -9,6 +9,7 @@ import Register from "./pages/auth/register";
 import NotFound from "./pages/NotFound";
 import GenrePage from "./pages/genre";
 import AuthorPage from "./pages/author";
+import BookPage from "./pages/book";
 
 function App() {
   return (
@@ -26,11 +27,13 @@ function App() {
           <Route path="contact" element={<Contact />} />
 
           {/* ================================================
-              MVC ROUTES — Genre & Author
-              Routing mengarahkan URL ke controller yang tepat
+              MVC ROUTES — Book, Genre & Author
+              Routing mengarahkan URL ke controller yang tepat.
+              Setara dengan routes/web.php pada Laravel.
               ================================================ */}
           <Route path="genre" element={<GenrePage />} />
           <Route path="author" element={<AuthorPage />} />
+          <Route path="book" element={<BookPage />} />
         </Route>
 
         {/* ========================================================

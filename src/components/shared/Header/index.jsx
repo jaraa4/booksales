@@ -196,6 +196,18 @@ export default function Header() {
                   <span>Author</span>
                 </NavLink>
               </li>
+
+              <li className="nav-item">
+                <NavLink
+                  to="/book"
+                  style={navLinkStyle}
+                  className="nav-link"
+                  onClick={() => setIsNavOpen(false)}
+                >
+                  <i className="fa-solid fa-book-bookmark"></i>
+                  <span>Book</span>
+                </NavLink>
+              </li>
             </ul>
 
             {/* User Login & Cart Action Area */}
