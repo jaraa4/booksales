@@ -1,31 +1,64 @@
 /**
  * ============================================================
- * CONTROLLER: BookController
+ * CONTROLLER: BookController (API)
  * ============================================================
- * Menghubungkan BookModel dengan BookView.
- * Bertanggung jawab mengambil data dari Model, melakukan
- * kalkulasi/logika bisnis, dan meneruskan hasilnya ke View.
+ * Controller ini telah direfaktor untuk arsitektur API.
+ * Tidak lagi memanggil View — fokus pada logika bisnis dan
+ * mengembalikan data dalam format JSON.
+ *
+ * Routing API (routes/api.js → server/):
+ *   GET /api/books       → index  (semua buku)
+ *   GET /api/books/:id   → show   (buku by ID)
  *
  * Setara dengan "app/Http/Controllers/BookController.php"
- * pada arsitektur Laravel MVC.
+ * pada arsitektur Laravel API (return response()->json(...)).
  * ============================================================
  */
 
 import BookModel from "../../models/BookModel";
-import BookView from "../../views/BookView";
 
-export default function BookController() {
-  // ── Ambil data dari Model ──────────────────────────────────
+// ── index: Ambil semua data buku ──────────────────────────
+export function index() {
   const bookData = BookModel;
 
-  // ── Hitung total stok dari semua buku ─────────────────────
+  // Hitung total stok dari semua buku
   const totalStok = bookData.reduce((acc, b) => acc + b.stok, 0);
 
-  // ── Hitung rata-rata rating ────────────────────────────────
-  const rataRating = (
-    bookData.reduce((acc, b) => acc + b.rating, 0) / bookData.length
-  ).toFixed(1);
+  // Hitung rata-rata rating
+  const rataRating = parseFloat(
+    (bookData.reduce((acc, b) => acc + b.rating, 0) / bookData.length).toFixed(1)
+  );
 
-  // ── Teruskan data ke View ──────────────────────────────────
-  return <BookView books={bookData} totalStok={totalStok} rataRating={rataRating} />;
+  // Output JSON (setara return response()->json(...) di Laravel)
+  return {
+    success: true,
+    message: "Data buku berhasil diambil",
+    meta: {
+      total: bookData.length,
+      totalStok,
+      rataRating,
+    },
+    data: bookData,
+  };
 }
+
+// ── show: Ambil satu buku berdasarkan ID ──────────────────
+export function show(id) {
+  const book = BookModel.find((b) => b.id === parseInt(id));
+
+  if (!book) {
+    return {
+      success: false,
+      message: `Buku dengan ID ${id} tidak ditemukan`,
+      data: null,
+    };
+  }
+
+  return {
+    success: true,
+    message: "Data buku berhasil diambil",
+    data: book,
+  };
+}
+
+export default { index, show };

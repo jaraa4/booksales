@@ -7,9 +7,20 @@ import Contact from "./pages/contact";
 import Login from "./pages/auth/login";
 import Register from "./pages/auth/register";
 import NotFound from "./pages/NotFound";
-import GenrePage from "./pages/genre";
-import AuthorPage from "./pages/author";
-import BookPage from "./pages/book";
+
+/**
+ * ============================================================
+ * APP ROUTING (setara routes/web.php pada Laravel)
+ * ============================================================
+ * Fokus pembelajaran telah beralih ke API.
+ * Route /book, /author, /genre telah dihapus dari web routing
+ * karena data kini disajikan melalui REST API (routes/api.js)
+ * yang dapat diakses via Postman:
+ *   GET http://localhost:3000/api/books
+ *   GET http://localhost:3000/api/authors
+ *   GET http://localhost:3000/api/genres
+ * ============================================================
+ */
 
 function App() {
   return (
@@ -25,15 +36,6 @@ function App() {
           <Route path="books" element={<Books />} />
           <Route path="team" element={<Team />} />
           <Route path="contact" element={<Contact />} />
-
-          {/* ================================================
-              MVC ROUTES — Book, Genre & Author
-              Routing mengarahkan URL ke controller yang tepat.
-              Setara dengan routes/web.php pada Laravel.
-              ================================================ */}
-          <Route path="genre" element={<GenrePage />} />
-          <Route path="author" element={<AuthorPage />} />
-          <Route path="book" element={<BookPage />} />
         </Route>
 
         {/* ========================================================

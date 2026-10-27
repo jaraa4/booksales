@@ -1,23 +1,58 @@
 /**
  * ============================================================
- * CONTROLLER: AuthorController
+ * CONTROLLER: AuthorController (API)
  * ============================================================
- * Menghubungkan AuthorModel dengan AuthorView.
- * Bertanggung jawab mengambil data dari Model dan meneruskannya
- * ke View untuk ditampilkan ke pengguna.
+ * Controller ini telah direfaktor untuk arsitektur API.
+ * Tidak lagi memanggil View — fokus pada logika bisnis dan
+ * mengembalikan data dalam format JSON.
+ *
+ * Routing API (routes/api.js → server/):
+ *   GET /api/authors       → index  (semua author)
+ *   GET /api/authors/:id   → show   (author by ID)
+ *
+ * Setara dengan "app/Http/Controllers/AuthorController.php"
+ * pada arsitektur Laravel API (return response()->json(...)).
  * ============================================================
  */
 
 import AuthorModel from "../../models/AuthorModel";
-import AuthorView from "../../views/AuthorView";
 
-export default function AuthorController() {
-  // ── Ambil data dari Model ──────────────────────────────────
+// ── index: Ambil semua data author ────────────────────────
+export function index() {
   const authorData = AuthorModel;
 
-  // ── Hitung total buku dari semua author ───────────────────
+  // Hitung total buku dari semua author
   const totalBuku = authorData.reduce((acc, a) => acc + a.jumlahBuku, 0);
 
-  // ── Teruskan data ke View ──────────────────────────────────
-  return <AuthorView authors={authorData} totalBuku={totalBuku} />;
+  // Output JSON (setara return response()->json(...) di Laravel)
+  return {
+    success: true,
+    message: "Data author berhasil diambil",
+    meta: {
+      total: authorData.length,
+      totalBuku,
+    },
+    data: authorData,
+  };
 }
+
+// ── show: Ambil satu author berdasarkan ID ────────────────
+export function show(id) {
+  const author = AuthorModel.find((a) => a.id === parseInt(id));
+
+  if (!author) {
+    return {
+      success: false,
+      message: `Author dengan ID ${id} tidak ditemukan`,
+      data: null,
+    };
+  }
+
+  return {
+    success: true,
+    message: "Data author berhasil diambil",
+    data: author,
+  };
+}
+
+export default { index, show };
