@@ -39,13 +39,17 @@ router.get("/books/:id", BookController.show);
 // ── AUTHOR ROUTES ──────────────────────────────────────────
 // Setara: Route::get('/authors', [AuthorController::class, 'index']);
 // Setara: Route::get('/authors/{id}', [AuthorController::class, 'show']);
+// Setara: Route::post('/authors', [AuthorController::class, 'store']);
 router.get("/authors", AuthorController.index);
 router.get("/authors/:id", AuthorController.show);
+router.post("/authors", AuthorController.store);
 
 // ── GENRE ROUTES ───────────────────────────────────────────
 // Setara: Route::get('/genres', [GenreController::class, 'index']);
 // Setara: Route::get('/genres/{id}', [GenreController::class, 'show']);
+// Setara: Route::post('/genres', [GenreController::class, 'store']);
 router.get("/genres", GenreController.index);
 router.get("/genres/:id", GenreController.show);
+router.post("/genres", GenreController.store);
 
 export default router;

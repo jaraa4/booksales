@@ -1,14 +1,5 @@
-/**
- * ============================================================
- * PAGE: Author
- * ============================================================
- * Halaman route "/author" — cukup memanggil AuthorController
- * yang sudah menghubungkan Model dan View secara otomatis.
- * ============================================================
- */
-
-import AuthorController from "../../controllers/AuthorController";
+import { Navigate } from "react-router";
 
 export default function AuthorPage() {
-  return <AuthorController />;
+  return <Navigate to="/admin/author" replace />;
 }

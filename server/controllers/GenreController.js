@@ -59,6 +59,43 @@ const GenreController = {
       data: genre,
     });
   },
+
+  /**
+   * POST /api/genres
+   * Menyimpan data genre baru.
+   * Setara dengan method store(Request $request) pada Laravel Controller.
+   */
+  store: (req, res) => {
+    const { nama, deskripsi, icon, warna, jumlahBuku } = req.body;
+
+    if (!nama || !deskripsi) {
+      return res.status(422).json({
+        success: false,
+        message: "Field nama dan deskripsi wajib diisi",
+        errors: {
+          nama: !nama ? "Nama genre wajib diisi" : null,
+          deskripsi: !deskripsi ? "Deskripsi wajib diisi" : null,
+        },
+      });
+    }
+
+    const newGenre = {
+      id: GenreModel.length > 0 ? Math.max(...GenreModel.map((g) => g.id)) + 1 : 1,
+      nama: String(nama).trim(),
+      deskripsi: String(deskripsi).trim(),
+      icon: icon ? String(icon).trim() : "fa-book",
+      warna: warna ? String(warna).trim() : "#4f46e5",
+      jumlahBuku: parseInt(jumlahBuku, 10) || 0,
+    };
+
+    GenreModel.push(newGenre);
+
+    return res.status(201).json({
+      success: true,
+      message: "Data genre berhasil ditambahkan",
+      data: newGenre,
+    });
+  },
 };
 
 export default GenreController;

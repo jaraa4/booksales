@@ -59,6 +59,47 @@ const AuthorController = {
       data: author,
     });
   },
+
+  /**
+   * POST /api/authors
+   * Menyimpan data author baru.
+   * Setara dengan method store(Request $request) pada Laravel Controller.
+   */
+  store: (req, res) => {
+    const { nama, email, negara, genre, jumlahBuku, avatar, bioSingkat } = req.body;
+
+    if (!nama || !email) {
+      return res.status(422).json({
+        success: false,
+        message: "Field nama dan email wajib diisi",
+        errors: {
+          nama: !nama ? "Nama author wajib diisi" : null,
+          email: !email ? "Email wajib diisi" : null,
+        },
+      });
+    }
+
+    const newAuthor = {
+      id: AuthorModel.length > 0 ? Math.max(...AuthorModel.map((a) => a.id)) + 1 : 1,
+      nama: String(nama).trim(),
+      email: String(email).trim(),
+      negara: negara ? String(negara).trim() : "Indonesia",
+      genre: genre ? String(genre).trim() : "Umum",
+      jumlahBuku: parseInt(jumlahBuku, 10) || 0,
+      avatar: avatar && String(avatar).trim() !== ""
+        ? String(avatar).trim()
+        : `https://ui-avatars.com/api/?name=${encodeURIComponent(nama)}&background=0d9488&color=fff`,
+      bioSingkat: bioSingkat ? String(bioSingkat).trim() : "Penulis di Bookstore.",
+    };
+
+    AuthorModel.push(newAuthor);
+
+    return res.status(201).json({
+      success: true,
+      message: "Data author berhasil ditambahkan",
+      data: newAuthor,
+    });
+  },
 };
 
 export default AuthorController;

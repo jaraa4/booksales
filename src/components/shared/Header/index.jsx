@@ -175,7 +175,7 @@ export default function Header() {
 
               <li className="nav-item">
                 <NavLink
-                  to="/genre"
+                  to="/admin/genre"
                   style={navLinkStyle}
                   className="nav-link"
                   onClick={() => setIsNavOpen(false)}
@@ -187,7 +187,7 @@ export default function Header() {
 
               <li className="nav-item">
                 <NavLink
-                  to="/author"
+                  to="/admin/author"
                   style={navLinkStyle}
                   className="nav-link"
                   onClick={() => setIsNavOpen(false)}
@@ -199,7 +199,7 @@ export default function Header() {
 
               <li className="nav-item">
                 <NavLink
-                  to="/book"
+                  to="/books"
                   style={navLinkStyle}
                   className="nav-link"
                   onClick={() => setIsNavOpen(false)}
@@ -212,6 +212,17 @@ export default function Header() {
 
             {/* User Login & Cart Action Area */}
             <div className="d-flex align-items-center gap-2 flex-wrap">
+              {/* Admin Panel Link */}
+              <Link
+                to="/admin"
+                className="btn btn-outline-dark rounded-pill px-3 py-2 d-inline-flex align-items-center gap-2 fw-semibold"
+                title="Buka Halaman Admin (Read & Create Genre & Author)"
+                onClick={() => setIsNavOpen(false)}
+              >
+                <i className="fa-solid fa-gauge-high text-success"></i>
+                <span className="small">Admin Panel</span>
+              </Link>
+
               {/* Cart Button */}
               <Link
                 to="/books"
